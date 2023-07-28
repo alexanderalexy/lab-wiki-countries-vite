@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function HomePage() {
+const HomePage = () => {
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
@@ -31,13 +31,13 @@ function HomePage() {
           {/* Render the list of country names */}
           {countries.map((country) => (
             <a key={country.alpha3Code} className="list-group-item list-group-item-action" href={`/${country.alpha3Code}`}>
-              {country.name}
+              {country.name.common}
             </a>
           ))}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default HomePage;
