@@ -1,6 +1,22 @@
 import React from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
 
 const CountryDetails = () => {
+
+  const { countryId } = useParams();
+  const [countryData, setCountryData] = useState(null);
+
+  useEffect(() => {
+  axios.get(`https://ih-countries-api.herokuapp.com/countries/${country.Id}`)
+  .then((response) => {
+    setCountryData(response.data);
+  }) .catch((error) => {
+    console.log("Error with fetching countra data:", error)
+  })
+}, [countryId]);
+
 
 return (
 <>
@@ -15,19 +31,19 @@ return (
     <div className="container">
       <p style= {{ fontSize: "24px", fontWeight: "bold" }}>Country Details</p>
 
-      <h1>France</h1>
+      <h1>{countryData.name.common}</h1>
 
       <table className="table">
         <thead></thead>
         <tbody>
           <tr>
             <td style= {{width:"30%"}}>Capital</td>
-            <td>Paris</td>
+            <td>{countryData.capital}</td>
           </tr>
           <tr>
             <td>Area</td>
             <td>
-              551695 km
+              {countryData.area} km
               <sup>2</sup>
             </td>
           </tr>
@@ -35,14 +51,11 @@ return (
             <td>Borders</td>
             <td>
               <ul>
-                <li><a href="/AND">Andorra</a></li>
-                <li><a href="/BEL">Belgium</a></li>
-                <li><a href="/DEU">Germany</a></li>
-                <li><a href="/ITA">Italy</a></li>
-                <li><a href="/LUX">Luxembourg</a></li>
-                <li><a href="/MCO">Monaco</a></li>
-                <li><a href="/ESP">Spain</a></li>
-                <li><a href="/CHE">Switzerland</a></li>
+              {countryData.borders.map((borderCountryId) => (
+                    <li key={borderCountryId}>
+                      <a href={`/${borderCountryId}`}>{borderCountryId}</a>
+                    </li>
+                  ))}
               </ul>
             </td>
           </tr>
